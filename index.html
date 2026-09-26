@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AcrossAds | Meta Ads + WhatsApp AI Lead-to-Booking System</title>
+  <meta name="description" content="AcrossAds runs Meta ads that send leads straight into WhatsApp, where our AI agent replies instantly, qualifies them and books site visits or closes the sale, 24/7." />
+  <meta name="theme-color" content="#05080d" />
+
+  <!-- Social share preview. Swap the image for a 1200x630 banner when you have one. -->
+  <meta property="og:title" content="AcrossAds | Ads bring the lead in. Our AI closes it." />
+  <meta property="og:description" content="Meta Ads → WhatsApp → AI agent that qualifies and books, automatically." />
+  <meta property="og:image" content="assets/logo-full.webp" />
+
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- =========================================================
+       NAVBAR (sticky)
+       ========================================================= -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="brand" aria-label="AcrossAds home">
+        <!-- Logo mark (cropped from your logo, background removed).
+             To use a new file, replace assets/logo-mark.webp -->
+        <img src="assets/logo-mark.webp" alt="" width="40" height="40" class="brand__mark" />
+        <span class="brand__name">Across<span>Ads</span></span>
+      </a>
+
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="#problem">Problem</a>
+        <a href="#system">How it works</a>
+        <a href="#proof">Results</a>
+        <a href="#industries">Industries</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="btn btn--chrome nav__cta-mobile">Book a Call</a>
+      </nav>
+
+      <div class="nav__right">
+        <a href="#contact" class="btn btn--chrome btn--sm nav__cta">Book a Call</a>
+        <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- =========================================================
+         1. HERO
+         ========================================================= -->
+    <section class="hero">
+      <!-- Animated background: drifting chrome/steel glows + particle mesh (canvas, see script.js) -->
+      <div class="hero__bg" aria-hidden="true">
+        <div class="orb orb--1" data-parallax="0.15"></div>
+        <div class="orb orb--2" data-parallax="-0.1"></div>
+        <canvas id="mesh"></canvas>
+        <div class="hero__grid"></div>
+      </div>
+
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow reveal"><span class="dot"></span> Meta Ads × WhatsApp AI Agent</p>
+          <h1 class="hero__title reveal">
+            Ads bring the lead in.<br />
+            <span class="chrome-text">Our AI closes it.</span>
+          </h1>
+          <p class="hero__sub reveal">
+            We run Meta ads that drop leads straight into WhatsApp, where an AI agent replies in seconds,
+            qualifies them, answers every question and books the site visit or closes the sale. 24/7, automatically.
+          </p>
+          <div class="hero__ctas reveal">
+            <a href="#contact" class="btn btn--chrome btn--lg">
+              Book a Free Strategy Call
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#system" class="btn btn--ghost btn--lg">See how it works</a>
+          </div>
+          <ul class="hero__chips reveal">
+            <li><strong>&lt; 5 sec</strong> first reply</li>
+            <li><strong>24/7</strong> follow-up</li>
+            <li><strong>0</strong> manual chasing</li>
+          </ul>
+        </div>
+
+        <!-- Hero phone: animated WhatsApp conversation (messages defined in script.js → HERO_CHAT) -->
+        <div class="hero__visual reveal" data-parallax="-0.06">
+          <div class="float-card float-card--ad">
+            <div class="float-card__icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><small>Meta Ad</small><b>New lead → WhatsApp</b></div>
+          </div>
+
+          <div class="phone">
+            <div class="phone__notch"></div>
+            <div class="wa">
+              <div class="wa__head">
+                <div class="wa__avatar">A²</div>
+                <div>
+                  <b>Skyline Residences</b>
+                  <small id="waStatus">AI assistant · online</small>
+                </div>
+              </div>
+              <div class="wa__body" id="heroChat" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <div class="float-card float-card--booked">
+            <div class="float-card__icon float-card__icon--ok">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><small>Site visit booked</small><b>Sat, 11:00 AM</b></div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#problem" class="scroll-cue" aria-label="Scroll down"><span></span></a>
+    </section>
+
+    <!-- =========================================================
+         2. THE PROBLEM
+         ========================================================= -->
+    <section class="section" id="problem">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="kicker">The problem</p>
+          <h2>You're paying for leads. <span class="chrome-text">Then they go cold.</span></h2>
+          <p class="lead">Ads aren't the leak. What happens after the click is. Here's where most businesses lose the sale:</p>
+        </div>
+
+        <div class="problem-grid">
+          <article class="p-card reveal">
+            <div class="p-card__icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 9v4l2.5 2.5M9 2h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Leads go cold in minutes</h3>
+            <p>A lead is hottest the moment they enquire. By the time someone calls back hours later, they've already messaged three competitors.</p>
+          </article>
+
+          <article class="p-card reveal">
+            <div class="p-card__icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Your team qualifies by hand</h3>
+            <p>Hours every week go into "what's your budget?", "which location?", "are you serious?" with people who were never going to buy.</p>
+          </article>
+
+          <article class="p-card reveal">
+            <div class="p-card__icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4M9.5 14l5 4M14.5 14l-5 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Bookings slip after hours</h3>
+            <p>Most enquiries arrive at night and on weekends, exactly when nobody's on WhatsApp. No reply means no visit and no sale.</p>
+          </article>
+        </div>
+
+        <p class="problem__bridge reveal">
+          So we built a system that <span class="chrome-text">never sleeps, never forgets to follow up, and only hands you the buyers.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. THE SYSTEM (how it works)
+         ========================================================= -->
+    <section class="section section--alt" id="system">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="kicker">The system</p>
+          <h2>One connected machine, <span class="chrome-text">from ad click to booked outcome.</span></h2>
+          <p class="lead">Two parts, engineered to work as one: the ads bring the right people in, and the AI turns the conversation into a booking.</p>
+        </div>
+
+        <!-- Two pillars -->
+        <div class="pillars">
+          <div class="pillar reveal">
+            <span class="pillar__num">Part 01</span>
+            <h3>Meta Ads → WhatsApp lead gen</h3>
+            <p>Facebook &amp; Instagram campaigns built for one thing: starting WhatsApp conversations with people who actually want what you sell. No forms nobody fills in, no leads you can't reach.</p>
+          </div>
+          <div class="pillar__link" aria-hidden="true">
+            <span></span>
+            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar reveal">
+            <span class="pillar__num">Part 02</span>
+            <h3>WhatsApp AI agent</h3>
+            <p>An AI trained on your business messages every lead instantly, qualifies them, handles FAQs and objections, then books the site visit or appointment, or closes the sale right in the chat.</p>
+          </div>
+        </div>
+
+        <!-- Step-by-step flow. The line fills as you scroll (script.js → flow progress). -->
+        <div class="flow" id="flow">
+          <div class="flow__track" aria-hidden="true"><div class="flow__fill" id="flowFill"></div></div>
+          <ol class="flow__list">
+
+          <li class="step reveal">
+            <div class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15.5 8.5a5 5 0 0 1 0 7" /></svg></div>
+            <div class="step__body"><span class="step__n">01</span><h4>Ad runs</h4><p>Targeted Meta ads reach your ideal buyers on Facebook &amp; Instagram.</p></div>
+          </li>
+          <li class="step reveal">
+            <div class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9l10 4-4 1.5L13.5 19z M5 5l2 2M11 3v2.5M3 11h2.5" /></svg></div>
+            <div class="step__body"><span class="step__n">02</span><h4>Lead clicks</h4><p>One tap on "Send message", no landing page or form to drop off from.</p></div>
+          </li>
+          <li class="step reveal">
+            <div class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.7z" /></svg></div>
+            <div class="step__body"><span class="step__n">03</span><h4>Lands in WhatsApp</h4><p>The conversation opens on the app your customers already live in.</p></div>
+          </li>
+          <li class="step reveal">
+            <div class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" /></svg></div>
+            <div class="step__body"><span class="step__n">04</span><h4>AI engages instantly</h4><p>A human-sounding reply in seconds, at 2 PM or 2 AM.</p></div>
+          </li>
+          <li class="step reveal">
+            <div class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6 7.5V19l-4 2v-8.5z" /></svg></div>
+            <div class="step__body"><span class="step__n">05</span><h4>Qualifies + answers FAQs</h4><p>Budget, timeline, location, needs. Pricing, availability and objections, all handled.</p></div>
+          </li>
+          <li class="step reveal">
+            <div class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6h15v14h-15zM4.5 10.5h15M8.5 3.5v4M15.5 3.5v4M9 15l2 2 4-4" /></svg></div>
+            <div class="step__body"><span class="step__n">06</span><h4>Books or closes</h4><p>Site visit, appointment or demo scheduled, or the sale closed in-chat.</p></div>
+          </li>
+          <li class="step reveal">
+            <div class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9zM10 20a2 2 0 0 0 4 0" /></svg></div>
+            <div class="step__body"><span class="step__n">07</span><h4>You get notified</h4><p>A qualified, booked lead with the full chat summary lands with you or your sales team.</p></div>
+          </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. PROOF / SOCIAL PROOF
+         ========================================================= -->
+    <section class="section" id="proof">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="kicker">Proof</p>
+          <h2>Real conversations. <span class="chrome-text">Real bookings.</span></h2>
+          <p class="lead">What happens when every lead gets an instant, intelligent reply.</p>
+        </div>
+
+        <!-- STAT STRIP
+             ✏️ EDIT: change data-count (the number), data-suffix / data-prefix, and the label text.
+             Counters animate from 0 when scrolled into view. -->
+        <div class="stats reveal">
+          <div class="stat">
+            <span class="stat__num" data-count="3" data-suffix="x">0</span>
+            <span class="stat__label">more qualified leads</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="25" data-suffix="+ hrs">0</span>
+            <span class="stat__label">saved per week on follow-up</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="1200" data-suffix="+">0</span>
+            <span class="stat__label">bookings automated</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-count="5" data-prefix="&lt; " data-suffix=" sec">0</span>
+            <span class="stat__label">average first reply</span>
+          </div>
+        </div>
+
+        <!-- SCREENSHOT MOCKUPS
+             ✏️ EDIT: to add a real screenshot, replace the <div class="shot-placeholder">…</div>
+             inside a frame with:  <img src="assets/your-screenshot.jpg" alt="Describe it" />
+             Phone frames suit tall WhatsApp screenshots (≈ 9:19.5). The browser frame suits dashboards (≈ 16:10). -->
+        <div class="shots">
+          <figure class="shot reveal">
+            <div class="phone phone--sm">
+              <div class="phone__notch"></div>
+              <div class="phone__screen">
+                <div class="shot-placeholder">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg>
+                  <span>WhatsApp AI chat screenshot</span>
+                </div>
+              </div>
+            </div>
+            <figcaption>AI qualifying a real-estate lead</figcaption>
+          </figure>
+
+          <figure class="shot shot--wide reveal">
+            <div class="browser">
+              <div class="browser__bar"><i></i><i></i><i></i><span>Results dashboard</span></div>
+              <div class="browser__screen">
+                <div class="shot-placeholder">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+                  <span>Results dashboard screenshot</span>
+                </div>
+              </div>
+            </div>
+            <figcaption>Leads, qualification rate &amp; bookings, tracked live</figcaption>
+          </figure>
+
+          <figure class="shot reveal">
+            <div class="phone phone--sm">
+              <div class="phone__notch"></div>
+              <div class="phone__screen">
+                <div class="shot-placeholder">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg>
+                  <span>Booking confirmation screenshot</span>
+                </div>
+              </div>
+            </div>
+            <figcaption>Site visit booked automatically</figcaption>
+          </figure>
+        </div>
+
+        <!-- TESTIMONIALS
+             ⚠️ PLACEHOLDERS: these are sample testimonials. Replace them with real ones from your
+             clients before running traffic to this page.
+             ✏️ EDIT: quote text, name, business/industry, and the photo. For a photo, replace
+             <div class="t-card__avatar">RM</div> with  <img class="t-card__avatar" src="assets/client.jpg" alt="Name" /> -->
+        <div class="testimonials">
+          <blockquote class="t-card reveal">
+            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
+            <p>"We were getting leads before, but half of them went cold before my team called back. Now every enquiry gets a reply in seconds and we just see the booked site visits. Site visits have more than doubled."</p>
+            <footer>
+              <div class="t-card__avatar">RM</div>
+              <div><b>Rohan Mehta</b><small>Director · Mehta Realty (Real Estate)</small></div>
+            </footer>
+          </blockquote>
+
+          <blockquote class="t-card reveal">
+            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
+            <p>"The AI answers sizing, delivery and COD questions better than we did manually. Orders from WhatsApp went up and my team stopped spending the whole day replying to the same five questions."</p>
+            <footer>
+              <div class="t-card__avatar">SK</div>
+              <div><b>Sneha Kapoor</b><small>Founder · Loom &amp; Thread (D2C Fashion)</small></div>
+            </footer>
+          </blockquote>
+
+          <blockquote class="t-card reveal">
+            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
+            <p>"What sold me was the quality. By the time a patient reaches our front desk, the AI has already checked the treatment, budget and preferred slot. Fewer no-shows, a fuller calendar."</p>
+            <footer>
+              <div class="t-card__avatar">AS</div>
+              <div><b>Dr. Arjun Shah</b><small>Owner · SmileCraft Dental (Healthcare)</small></div>
+            </footer>
+          </blockquote>
+
+          <blockquote class="t-card reveal">
+            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
+            <p>"I was sceptical about a bot talking to my customers. Honestly, it's been worth every rupee. It follows up at 11 PM when I'm asleep and I wake up to booked appointments."</p>
+            <footer>
+              <div class="t-card__avatar">PN</div>
+              <div><b>Priya Nair</b><small>Founder · Glow Studio (Salon &amp; Wellness)</small></div>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. WHO IT'S FOR
+         ========================================================= -->
+    <section class="section section--alt" id="industries">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="kicker">Who it's for</p>
+          <h2>Built around <span class="chrome-text">your</span> booking.</h2>
+          <p class="lead">The AI is trained on your offer, your FAQs and your sales process, so the "outcome" is whatever moves your business forward.</p>
+        </div>
+
+        <!-- ✏️ EDIT: add/remove industry cards freely. -->
+        <div class="industries">
+          <article class="i-card reveal">
+            <div class="i-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13M9.5 21v-6h5v6"/></svg></div>
+            <h3>Real Estate</h3>
+            <p>Qualifies budget, configuration &amp; location, then books site visits straight into your calendar.</p>
+            <span class="i-card__tag">→ Site visits</span>
+          </article>
+          <article class="i-card reveal">
+            <div class="i-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8zM9 7V5.5a3 3 0 0 1 6 0V7"/></svg></div>
+            <h3>D2C &amp; Retail</h3>
+            <p>Recommends products, answers sizing, shipping &amp; COD questions, and pushes to checkout in-chat.</p>
+            <span class="i-card__tag">→ Orders</span>
+          </article>
+          <article class="i-card reveal">
+            <div class="i-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-7.5-10.4A4.4 4.4 0 0 1 12 8a4.4 4.4 0 0 1 7.5 2.6C19.5 16.4 12 21 12 21z"/></svg></div>
+            <h3>Clinics &amp; Wellness</h3>
+            <p>Handles treatment queries and pricing, then books consultations with reminders to cut no-shows.</p>
+            <span class="i-card__tag">→ Appointments</span>
+          </article>
+          <article class="i-card reveal">
+            <div class="i-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2.5 9 2.5 12 0v-5"/></svg></div>
+            <h3>Education &amp; Coaching</h3>
+            <p>Screens students by course, goals and budget, and books counselling calls or demo classes.</p>
+            <span class="i-card__tag">→ Demo classes</span>
+          </article>
+          <article class="i-card reveal">
+            <div class="i-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></div>
+            <h3>Service Businesses</h3>
+            <p>Interiors, solar, home services, agencies: scopes the job and schedules the inspection or call.</p>
+            <span class="i-card__tag">→ Consultations</span>
+          </article>
+          <article class="i-card reveal">
+            <div class="i-card__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16h14M3.5 16l1.8-5.4A2 2 0 0 1 7.2 9h9.6a2 2 0 0 1 1.9 1.6L20.5 16v3h-17zM7 19v1.5M17 19v1.5"/></svg></div>
+            <h3>Automotive &amp; Showrooms</h3>
+            <p>Captures model, variant &amp; finance interest, then books test drives and showroom visits.</p>
+            <span class="i-card__tag">→ Test drives</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. CONTACT / LEAD FORM
+         ========================================================= -->
+    <section class="section contact" id="contact">
+      <div class="container contact__inner">
+        <div class="contact__copy reveal">
+          <p class="kicker">Get started</p>
+          <h2>Let's build your <span class="chrome-text">lead-to-booking machine.</span></h2>
+          <p class="lead">Tell us about your business. We'll map out how the ads + AI system would work for you, in a free strategy call.</p>
+
+          <ul class="next-steps">
+            <li><span>1</span> We review your business &amp; current lead flow</li>
+            <li><span>2</span> Free call to map your ad + AI system</li>
+            <li><span>3</span> We build, launch and optimise it for you</li>
+          </ul>
+
+          <a class="btn btn--wa" href="https://wa.me/917021081263?text=Hi%20AcrossAds%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Meta%20Ads%20%2B%20WhatsApp%20AI%20system." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+            Prefer WhatsApp? Chat with us
+          </a>
+        </div>
+
+        <!-- ─────────────────────────────────────────────────────────
+             LEAD FORM → sends to your email via Web3Forms (free, no backend)
+             SETUP (2 minutes):
+               1. Go to https://web3forms.com, enter the email you want leads sent to.
+               2. They email you an Access Key.
+               3. Paste it into the value="" of the access_key input below
+                  (replace YOUR_WEB3FORMS_ACCESS_KEY).
+             Until a key is added, submitting opens the visitor's email app
+             with the details pre-filled (mailto fallback, see script.js → FALLBACK_EMAIL).
+             ───────────────────────────────────────────────────────── -->
+        <form class="form reveal" id="leadForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+          <!-- 👇 PASTE YOUR WEB3FORMS ACCESS KEY HERE -->
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+          <input type="hidden" name="subject" value="New lead from AcrossAds website" />
+          <input type="hidden" name="from_name" value="AcrossAds Website" />
+          <!-- Honeypot spam trap (leave empty, hidden from humans) -->
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+          <h3 class="form__title">Book your free strategy call</h3>
+
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone Number</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210" required pattern="[0-9+\-\s()]{7,}" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-industry">Industry</label>
+              <select id="f-industry" name="industry" required>
+                <option value="" disabled selected>Select your industry</option>
+                <option>Real Estate</option>
+                <option>D2C / E-commerce</option>
+                <option>Retail</option>
+                <option>Clinic / Healthcare / Wellness</option>
+                <option>Education / Coaching</option>
+                <option>Services (Interiors, Solar, Home services…)</option>
+                <option>Automotive</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-business">Business Name</label>
+              <input id="f-business" name="business_name" type="text" autocomplete="organization" placeholder="Your company" required />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn--chrome btn--lg btn--block" id="submitBtn">
+            <span class="btn__label">Get My Free Strategy Call</span>
+            <span class="btn__spinner" aria-hidden="true"></span>
+          </button>
+          <p class="form__note">No spam. We reply within one business day.</p>
+          <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       7. FOOTER
+       ========================================================= -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#top" class="brand">
+          <img src="assets/logo-mark.webp" alt="" width="40" height="40" class="brand__mark" />
+          <span class="brand__name">Across<span>Ads</span></span>
+        </a>
+        <p>Meta Ads + WhatsApp AI. The lead-to-booking system that works while you sleep.</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>Contact</h4>
+        <p>Founder: <b>Mustafa Shiyaji</b></p>
+        <p><a href="tel:+917021081263">+91 70210 81263</a></p>
+        <p><a href="https://wa.me/917021081263" target="_blank" rel="noopener">WhatsApp us →</a></p>
+      </div>
+
+      <div class="footer__col">
+        <h4>Explore</h4>
+        <p><a href="#system">How it works</a></p>
+        <p><a href="#proof">Results</a></p>
+        <p><a href="#industries">Industries</a></p>
+        <p><a href="#contact">Book a call</a></p>
+      </div>
+    </div>
+    <div class="container footer__base">
+      <span>© <span id="year"></span> AcrossAds. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp click-to-chat button (number: 7021081263, +91 India code assumed) -->
+  <a class="wa-float" href="https://wa.me/917021081263?text=Hi%20AcrossAds%2C%20I%27d%20like%20to%20know%20more." target="_blank" rel="noopener" aria-label="Chat with AcrossAds on WhatsApp">
+    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+  </a>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
