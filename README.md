@@ -1,9 +1,9 @@
 # AcrossAds website
 
-A static, single-page marketing site: plain HTML, CSS and JS with no build step. To preview it, open `index.html` in a browser. To host it, upload this folder to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages).
+A static, single-page marketing site: plain HTML, CSS and JS with no build step. To preview it, open `acrossads/index.html` in a browser. To host it, upload this folder to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages).
 
 ```
-acrossads/
+acrossads/          ← the website (Vercel serves this folder)
 ├── index.html      page structure and all copy
 ├── styles.css      design tokens (brand colours) at the top in :root
 ├── script.js       animations, hero chat script, form submission
