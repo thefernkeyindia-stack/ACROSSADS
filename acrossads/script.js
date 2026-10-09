@@ -7,10 +7,8 @@
    CONFIG: edit these
    ───────────────────────────────────────────────────────────── */
 
-// Used only if the Web3Forms access key in index.html hasn't been set yet:
-// the form then opens the visitor's email app addressed to this inbox.
-// ✏️ Replace with the email you want leads sent to.
-const FALLBACK_EMAIL = "YOUR_EMAIL@example.com";
+// ✏️ WhatsApp number that receives form leads: country code + number, no "+" or spaces.
+const LEAD_WHATSAPP = "917021081263";
 
 // The animated WhatsApp conversation in the hero phone.
 // from: "in" = lead, "out" = AI agent. Keep messages short so they fit.
@@ -273,7 +271,10 @@ $$(".i-card").forEach((card) => {
   });
 });
 
-/* ---------- Lead form → Web3Forms (with mailto fallback) ---------- */
+/* ---------- Lead form → your WhatsApp (+ optional email copy) ----------
+   On submit, WhatsApp opens with the lead's details already typed into a
+   message to LEAD_WHATSAPP. The visitor taps Send and it lands in your chat.
+   If a Web3Forms key is set in index.html, a copy is also emailed to you.  */
 (() => {
   const form = $("#leadForm");
   const btn = $("#submitBtn");
@@ -293,7 +294,7 @@ $$(".i-card").forEach((card) => {
   };
   $$("input, select", form).forEach((f) => f.addEventListener("input", () => f.closest(".field")?.classList.remove("has-error")));
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (form.botcheck.checked) return; // spam bot
     if (!validate()) { setStatus("Please fill in all fields correctly.", "err"); return; }
@@ -301,32 +302,32 @@ $$(".i-card").forEach((card) => {
     const data = Object.fromEntries(new FormData(form));
     delete data.botcheck;
 
-    // No access key yet → open the visitor's email app pre-filled (works with zero setup)
-    if (!data.access_key || data.access_key.startsWith("YOUR_")) {
-      const body =
-        `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nIndustry: ${data.industry}\nBusiness Name: ${data.business_name}`;
-      window.location.href = `mailto:${FALLBACK_EMAIL}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(body)}`;
-      setStatus("Opening your email app to send your details…", "ok");
-      return;
+    // The message that arrives in your WhatsApp
+    const text =
+      `Hi AcrossAds, I'd like a free strategy call.\n\n` +
+      `*Name:* ${data.name}\n` +
+      `*Email:* ${data.email}\n` +
+      `*Phone:* ${data.phone}\n` +
+      `*Industry:* ${data.industry}\n` +
+      `*Business:* ${data.business_name}`;
+    const waUrl = `https://wa.me/${LEAD_WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+    // Optional email copy via Web3Forms (only if a key is set). keepalive lets it
+    // finish even though we leave the page for WhatsApp right after.
+    if (data.access_key && !data.access_key.startsWith("YOUR_")) {
+      try {
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(data),
+          keepalive: true,
+        }).catch(() => {});
+      } catch (_) { /* email copy is best-effort */ }
     }
 
-    btn.classList.add("is-loading"); btn.disabled = true;
-    setStatus("");
-    try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      if (!res.ok || !json.success) throw new Error(json.message || "Submission failed");
-      form.reset();
-      setStatus("Thanks! We've got your details and will reach out within one business day.", "ok");
-      // Hook for ad tracking, e.g. Meta Pixel:  if (window.fbq) fbq('track', 'Lead');
-    } catch (err) {
-      setStatus("Something went wrong. Please try again or message us on WhatsApp.", "err");
-    } finally {
-      btn.classList.remove("is-loading"); btn.disabled = false;
-    }
+    // Ad tracking hook, e.g. Meta Pixel:  if (window.fbq) fbq('track', 'Lead');
+    setStatus("Opening WhatsApp… just tap Send to submit your details.", "ok");
+    form.reset();
+    window.location.href = waUrl; // opens the WhatsApp app on mobile, WhatsApp Web on desktop
   });
 })();

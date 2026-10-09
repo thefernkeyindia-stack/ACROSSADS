@@ -485,17 +485,14 @@
         </div>
 
         <!-- ─────────────────────────────────────────────────────────
-             LEAD FORM → sends to your email via Web3Forms (free, no backend)
-             SETUP (2 minutes):
-               1. Go to https://web3forms.com, enter the email you want leads sent to.
-               2. They email you an Access Key.
-               3. Paste it into the value="" of the access_key input below
-                  (replace YOUR_WEB3FORMS_ACCESS_KEY).
-             Until a key is added, submitting opens the visitor's email app
-             with the details pre-filled (mailto fallback, see script.js → FALLBACK_EMAIL).
+             LEAD FORM → sends the lead to your WhatsApp
+             On submit, WhatsApp opens with the details pre-typed to your number
+             (set in script.js → LEAD_WHATSAPP). The visitor taps Send.
+             OPTIONAL email copy: get a free key at https://web3forms.com and paste it
+             into the access_key value below (replace YOUR_WEB3FORMS_ACCESS_KEY).
              ───────────────────────────────────────────────────────── -->
         <form class="form reveal" id="leadForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
-          <!-- 👇 PASTE YOUR WEB3FORMS ACCESS KEY HERE -->
+          <!-- 👇 OPTIONAL: Web3Forms key for an email copy of each lead -->
           <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
           <input type="hidden" name="subject" value="New lead from AcrossAds website" />
           <input type="hidden" name="from_name" value="AcrossAds Website" />
@@ -542,10 +539,11 @@
           </div>
 
           <button type="submit" class="btn btn--chrome btn--lg btn--block" id="submitBtn">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
             <span class="btn__label">Get My Free Strategy Call</span>
             <span class="btn__spinner" aria-hidden="true"></span>
           </button>
-          <p class="form__note">No spam. We reply within one business day.</p>
+          <p class="form__note">Opens WhatsApp with your details filled in. Just tap Send. No spam.</p>
           <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
         </form>
       </div>
