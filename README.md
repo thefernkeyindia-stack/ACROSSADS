@@ -7,6 +7,8 @@ acrossads/          ← the website (Vercel serves this folder)
 ├── index.html      page structure and all copy
 ├── styles.css      design tokens (brand colours) at the top in :root
 ├── script.js       animations, hero chat script, form submission
+├── demo.css        interactive demo styles (uses the site's own tokens)
+├── demo.js         interactive demo logic (scripted conversations, not a live AI)
 └── assets/         logo mark, favicon, full logo
 ```
 
@@ -29,3 +31,7 @@ Every editable spot has a ✏️ comment in `index.html`. Search the file for `�
 | Hero chat conversation | `HERO_CHAT` array at the top of `script.js` |
 | Brand colours | CSS variables in `:root` in `styles.css` |
 | WhatsApp number | Search for `917021081263` (it assumes the +91 country code) |
+
+## Interactive demo
+
+The "AI demo" section (below *How it works*, linked from the header) is a scripted WhatsApp conversation the visitor can play through for Real Estate, E-commerce and Clinics. It is **not** a live AI and the page says so. To change the conversations, edit `SCENARIOS` at the top of `demo.js`; to restyle it, change the tokens in `:root` in `styles.css` (the demo reuses them).

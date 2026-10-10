@@ -491,7 +491,6 @@ p { margin: 0; }
 .testimonials { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .t-card { margin: 0; padding: 30px; display: flex; flex-direction: column; gap: 18px; transition: transform .35s var(--ease), border-color .35s; }
 .t-card:hover { transform: translateY(-5px); border-color: var(--line-strong); }
-.t-card__stars { color: var(--chrome); letter-spacing: 3px; font-size: 15px; }
 .t-card p { font-size: 16.5px; line-height: 1.65; color: #cfd8e1; flex: 1; }
 .t-card footer { display: flex; align-items: center; gap: 14px; padding-top: 18px; border-top: 1px solid var(--line); }
 .t-card__avatar { width: 48px; height: 48px; border-radius: 50%; flex: none; display: grid; place-items: center; object-fit: cover; background: var(--grad-steel); border: 1px solid var(--line-strong); color: var(--chrome-hi); font-family: var(--font-display); font-weight: 700; font-size: 15px; }

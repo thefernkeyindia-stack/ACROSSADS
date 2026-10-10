@@ -17,6 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="demo.css" />
 </head>
 <body>
 
@@ -35,6 +36,7 @@
       <nav class="nav__links" id="navLinks" aria-label="Primary">
         <a href="#problem">Problem</a>
         <a href="#system">How it works</a>
+        <a href="#demo">AI demo</a>
         <a href="#proof">Results</a>
         <a href="#industries">Industries</a>
         <a href="#contact">Contact</a>
@@ -235,6 +237,93 @@
     </section>
 
     <!-- =========================================================
+         INTERACTIVE DEMO
+         A scripted WhatsApp conversation the visitor can play through (Real Estate, E-commerce, Clinics).
+         It is a demonstration, not a live AI, and the page says so. Logic: demo.js · styles: demo.css
+         ========================================================= -->
+    <section class="section" id="demo" aria-labelledby="demo-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="kicker">Interactive demo</p>
+          <h2 id="demo-title">Don't just read about it. <span class="chrome-text">Watch it sell.</span></h2>
+          <p class="lead">Pick an industry, tap a reply as the customer, and see how the AI qualifies the lead and moves them toward a booking.</p>
+        </div>
+
+        <div class="dm">
+          <div class="dm__tabs reveal" role="tablist" aria-label="Choose a business scenario" id="dmTabs">
+            <button class="dm-tab" role="tab" id="dm-tab-realestate" aria-selected="true" aria-controls="dmPanel" data-scenario="realestate" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13M9.5 21v-6h5v6"/></svg>Real Estate
+            </button>
+            <button class="dm-tab" role="tab" id="dm-tab-ecom" aria-selected="false" aria-controls="dmPanel" data-scenario="ecom" tabindex="-1" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1.2 12.2a1 1 0 0 1-.8.8H7.2a1 1 0 0 1-1-.8zM9 7V5.5a3 3 0 0 1 6 0V7"/></svg>E-commerce
+            </button>
+            <button class="dm-tab" role="tab" id="dm-tab-clinic" aria-selected="false" aria-controls="dmPanel" data-scenario="clinic" tabindex="-1" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-7.5-10.4A4.4 4.4 0 0 1 12 8a4.4 4.4 0 0 1 7.5 2.6C19.5 16.4 12 21 12 21z"/></svg>Clinics
+            </button>
+          </div>
+
+          <div class="dm__device reveal" id="dmPanel" role="tabpanel" aria-labelledby="dm-tab-realestate">
+            <div class="phone dm-phone">
+              <div class="phone__notch"></div>
+              <div class="wa">
+                <div class="wa__head">
+                  <div class="wa__avatar" id="dmAvatar">S</div>
+                  <div>
+                    <b id="dmName">Skyline Residences</b>
+                    <small id="dmStatus">AI assistant · online</small>
+                  </div>
+                  <span class="dm-badge">Scripted demo</span>
+                </div>
+                <div class="dm-meter">
+                  <div class="dm-bar" id="dmBarWrap" role="progressbar" aria-label="Demo progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><i id="dmBar"></i></div>
+                  <p id="dmStep">Step 1 of 5</p>
+                </div>
+                <div class="dm-body" id="dmBody" role="log" aria-live="polite" aria-relevant="additions" aria-label="Demo conversation" tabindex="0"></div>
+                <div class="dm-tray" id="dmTray">
+                  <p class="dm-hint" id="dmHint" hidden>Tap a reply as the customer</p>
+                  <div class="dm-opts" id="dmOpts"></div>
+                </div>
+              </div>
+            </div>
+            <div class="dm__ctrls">
+              <button class="btn btn--ghost btn--sm" id="dmRestart" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>Restart demo</button>
+              <button class="btn btn--ghost btn--sm" id="dmAuto" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>Watch it run</button>
+            </div>
+          </div>
+
+          <div class="dm__side">
+            <ol class="dm-steps reveal" id="dmSteps" aria-label="What the AI is doing in this conversation">
+          <li data-i="0" class="is-current"><span class="dm-steps__n"><span>1</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Replies instantly</li>
+          <li data-i="1"><span class="dm-steps__n"><span>2</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Understands the need</li>
+          <li data-i="2"><span class="dm-steps__n"><span>3</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Qualifies the budget</li>
+          <li data-i="3"><span class="dm-steps__n"><span>4</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Checks the timing</li>
+          <li data-i="4"><span class="dm-steps__n"><span>5</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Books the site visit</li>
+            </ol>
+
+            <aside class="dm-lead reveal" id="dmLead" aria-label="Lead details captured by the AI">
+              <div class="dm-lead__head">
+                <b>Lead profile</b>
+                <span class="dm-lead__st" id="dmLeadStatus">Collecting…</span>
+              </div>
+              <dl class="dm-lead__rows" id="dmLeadRows">
+            <div data-k="config"><dt>Looking for</dt><dd>—</dd></div>
+            <div data-k="purpose"><dt>Purpose</dt><dd>—</dd></div>
+            <div data-k="budget"><dt>Budget</dt><dd>—</dd></div>
+            <div data-k="timeline"><dt>Timeline</dt><dd>—</dd></div>
+            <div data-k="slot"><dt>Site visit</dt><dd>—</dd></div>
+              </dl>
+            </aside>
+
+            <p class="dm__note reveal">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>This is a pre-written demonstration, not a live AI conversation. Your real agent is trained on your own offer, pricing and FAQs.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
          4. PROOF / SOCIAL PROOF
          ========================================================= -->
     <section class="section" id="proof">
@@ -371,7 +460,6 @@
              <div class="t-card__avatar">RM</div> with  <img class="t-card__avatar" src="assets/client.jpg" alt="Name" /> -->
         <div class="testimonials">
           <blockquote class="t-card reveal">
-            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
             <p>"We were getting leads before, but half of them went cold before my team called back. Now every enquiry gets a reply in seconds and we just see the booked site visits. Site visits have more than doubled."</p>
             <footer>
               <div class="t-card__avatar">RM</div>
@@ -380,7 +468,6 @@
           </blockquote>
 
           <blockquote class="t-card reveal">
-            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
             <p>"The AI answers sizing, delivery and COD questions better than we did manually. Orders from WhatsApp went up and my team stopped spending the whole day replying to the same five questions."</p>
             <footer>
               <div class="t-card__avatar">SK</div>
@@ -389,7 +476,6 @@
           </blockquote>
 
           <blockquote class="t-card reveal">
-            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
             <p>"What sold me was the quality. By the time a patient reaches our front desk, the AI has already checked the treatment, budget and preferred slot. Fewer no-shows, a fuller calendar."</p>
             <footer>
               <div class="t-card__avatar">AS</div>
@@ -398,7 +484,6 @@
           </blockquote>
 
           <blockquote class="t-card reveal">
-            <div class="t-card__stars" aria-label="5 out of 5">★★★★★</div>
             <p>"I was sceptical about a bot talking to my customers. Honestly, it's been worth every rupee. It follows up at 11 PM when I'm asleep and I wake up to booked appointments."</p>
             <footer>
               <div class="t-card__avatar">PN</div>
@@ -573,6 +658,7 @@
       <div class="footer__col">
         <h4>Explore</h4>
         <p><a href="#system">How it works</a></p>
+        <p><a href="#demo">AI demo</a></p>
         <p><a href="#proof">Results</a></p>
         <p><a href="#industries">Industries</a></p>
         <p><a href="#contact">Book a call</a></p>
@@ -589,5 +675,6 @@
   </a>
 
   <script src="script.js" defer></script>
+  <script src="demo.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,152 @@
+/* =============================================================
+   Interactive AI demo — built in the site's own theme
+   (blue-black surfaces, brushed chrome + steel, WhatsApp-style chat).
+   Reuses tokens and the .phone / .wa chat look from styles.css.
+   Every class here is prefixed dm- so nothing else on the page is touched.
+   ============================================================= */
+
+.dm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "tabs" "device" "side";
+  gap: 36px 64px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.dm__tabs { grid-area: tabs; justify-self: start; }
+.dm__device { grid-area: device; display: grid; justify-items: center; align-content: start; gap: 18px; min-width: 0; }
+.dm__side { grid-area: side; display: grid; gap: 18px; align-content: start; min-width: 0; }
+@media (min-width: 960px) {
+  .dm { grid-template-columns: minmax(0, 1fr) 340px; grid-template-areas: "tabs device" "side device"; grid-template-rows: auto 1fr; align-items: start; }
+}
+@media (max-width: 959px) { .dm__tabs { justify-self: center; } }
+
+/* ---------- Scenario tabs (chrome pill, like the site's buttons) ---------- */
+.dm-tabs, .dm__tabs {
+  display: inline-flex; gap: 4px; padding: 5px; max-width: 100%;
+  border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(172, 188, 203, .05);
+}
+.dm-tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px;
+  font-family: var(--font-display); font-weight: 600; font-size: 14.5px; color: var(--muted);
+  background: none; cursor: pointer; white-space: nowrap;
+  transition: color .25s, background-color .3s, box-shadow .3s;
+}
+.dm-tab:hover { color: var(--text); }
+.dm-tab svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.dm-tab[aria-selected="true"] {
+  color: #0a0f16; background: var(--grad-chrome-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), inset 0 -2px 6px rgba(63, 77, 91, .35), 0 8px 26px -8px var(--glow);
+}
+@media (max-width: 480px) { .dm-tab { padding: 0 13px; font-size: 14px; } .dm-tab svg { display: none; } }
+
+/* ---------- Phone (the site's chrome phone, resized for interaction) ---------- */
+.dm-phone.phone { width: 340px; height: 680px; aspect-ratio: auto; max-width: 100%; }
+.dm-phone .wa { height: 100%; }
+.dm-phone .wa__head { padding-top: 48px; }
+.dm-badge {
+  margin-left: auto; flex: none; padding: 3px 9px; border-radius: 999px;
+  font-size: 9.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--steel-lt); border: 1px solid var(--line-strong); background: rgba(172, 188, 203, .06); white-space: nowrap;
+}
+.dm-meter { padding: 9px 14px 8px; background: #17222a; border-bottom: 1px solid rgba(255, 255, 255, .05); display: grid; gap: 6px; }
+.dm-bar { height: 3px; border-radius: 3px; overflow: hidden; background: rgba(255, 255, 255, .09); }
+.dm-bar i { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, var(--steel), var(--chrome-hi)); box-shadow: 0 0 10px var(--glow); transition: width .7s var(--ease); }
+.dm-meter p { font-size: 10.5px; letter-spacing: .06em; color: #8696a0; }
+
+.dm-body {
+  flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: 12px 10px; display: flex; flex-direction: column; gap: 7px;
+  background: #0b141a radial-gradient(circle at 20% 20%, rgba(255, 255, 255, .025) 1px, transparent 1.5px) 0 0 / 18px 18px;
+  scrollbar-width: thin; scrollbar-color: rgba(172, 188, 203, .3) transparent;
+}
+.dm-body::-webkit-scrollbar { width: 5px; }
+.dm-body::-webkit-scrollbar-thumb { border-radius: 5px; background: rgba(172, 188, 203, .3); }
+.dm-day { align-self: center; padding: 3px 11px; border-radius: 8px; font-size: 10.5px; color: #8696a0; background: #182229; }
+
+/* Same bubble language as the hero chat: customer on the left, the AI agent in green on the right */
+.dm-msg { max-width: 84%; padding: 8px 11px 9px; border-radius: 11px; font-size: 13.5px; line-height: 1.45; color: #e9edef; overflow-wrap: anywhere; animation: msgIn .45s var(--ease) both; }
+.dm-msg small { display: block; text-align: right; font-size: 10px; color: rgba(233, 237, 239, .55); margin-top: 2px; }
+.dm-msg--in { align-self: flex-start; background: #202c33; border-top-left-radius: 3px; }
+.dm-msg--out { align-self: flex-end; background: #005c4b; border-top-right-radius: 3px; }
+.dm-typing { align-self: flex-end; display: flex; gap: 4px; padding: 11px 13px; border-radius: 11px; border-top-right-radius: 3px; background: #005c4b; animation: msgIn .3s var(--ease) both; }
+.dm-typing i { width: 6px; height: 6px; border-radius: 50%; background: rgba(233, 237, 239, .7); animation: blink 1.2s infinite; }
+.dm-typing i:nth-child(2) { animation-delay: .15s; }
+.dm-typing i:nth-child(3) { animation-delay: .3s; }
+
+/* Result card (same finish as the site's booking confirmation) */
+.dm-card { align-self: flex-end; width: min(94%, 268px); padding: 11px 13px 12px; border-radius: 11px; border-top-right-radius: 3px; background: #0c4a40; border: 1px solid rgba(220, 230, 240, .22); animation: msgIn .5s var(--ease) both; }
+.dm-card--soft { background: #1a2632; }
+.dm-card__head { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.dm-card__ok { width: 22px; height: 22px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--wa); color: #04120a; font-weight: 800; font-size: 12px; }
+.dm-card--soft .dm-card__ok { background: var(--grad-chrome-soft); color: #0a0f16; }
+.dm-card b { font-family: var(--font-display); font-size: 13.5px; }
+.dm-card dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0 0 8px; font-size: 11.5px; }
+.dm-card dt { color: rgba(233, 237, 239, .6); }
+.dm-card dd { margin: 0; text-align: right; }
+.dm-card p { font-size: 11px; color: #7fe0c8; }
+.dm-card--soft p { color: var(--steel-lt); }
+.dm-tag { align-self: center; max-width: 100%; text-align: center; font-size: 11px; color: var(--chrome); padding: 5px 11px; border-radius: 999px; background: rgba(127, 151, 174, .16); border: 1px solid var(--line-strong); animation: msgIn .45s var(--ease) both; }
+
+/* Reply tray */
+.dm-tray { min-height: 124px; padding: 10px 12px 14px; background: #111b21; border-top: 1px solid rgba(255, 255, 255, .06); }
+.dm-hint { margin-bottom: 8px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: #8696a0; }
+.dm-opts { display: flex; flex-wrap: wrap; gap: 7px; }
+.dm-qr {
+  min-height: 40px; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  font: inherit; font-size: 13px; font-weight: 500; text-align: left; color: var(--chrome);
+  background: rgba(172, 188, 203, .07); border: 1px solid var(--line-strong);
+  animation: msgIn .45s var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms);
+  transition: border-color .2s, background-color .2s, transform .3s var(--ease);
+}
+.dm-qr:hover { border-color: var(--steel-lt); background: rgba(172, 188, 203, .15); transform: translateY(-2px); }
+.dm-qr:active { transform: translateY(0) scale(.98); }
+.dm-opts .btn { animation: msgIn .45s var(--ease) both; }
+
+.dm__ctrls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.dm__ctrls .btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.dm__ctrls .btn:hover svg { transform: none; }
+
+/* Flat chat card on small screens (no phone bezel, more room) */
+@media (max-width: 640px) {
+  .dm-phone.phone { width: 100%; max-width: 440px; height: min(640px, 84svh); min-height: 520px; padding: 0; border-radius: 22px; background: none; box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .9), 0 0 0 1px var(--line-strong); }
+  .dm-phone .phone__notch { display: none; }
+  .dm-phone .wa { border-radius: 22px; }
+  .dm-phone .wa__head { padding-top: 14px; }
+}
+
+/* ---------- Left column: what the AI is doing + captured lead ---------- */
+.dm-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dm-steps li { display: flex; align-items: center; gap: 14px; padding: 11px 16px; border-radius: var(--radius-sm); border: 1px solid transparent; color: var(--muted); font-size: 15.5px; transition: background-color .4s, border-color .4s, color .4s; }
+.dm-steps__n { width: 32px; height: 32px; flex: none; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 13px; background: rgba(127, 151, 174, .1); border: 1px solid var(--line-strong); color: var(--steel-lt); transition: background .4s, color .4s, border-color .4s, box-shadow .4s; }
+.dm-steps__n svg { display: none; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.dm-steps li.is-current { color: var(--text); background: rgba(127, 151, 174, .09); border-color: var(--line-strong); }
+.dm-steps li.is-current .dm-steps__n { background: var(--grad-chrome-soft); color: #0a0f16; border-color: transparent; box-shadow: 0 0 0 5px rgba(172, 188, 203, .08), 0 8px 22px -8px var(--glow); }
+.dm-steps li.is-done { color: #cfd8e1; }
+.dm-steps li.is-done .dm-steps__n { background: rgba(127, 151, 174, .22); color: var(--chrome); border-color: rgba(220, 230, 240, .35); }
+.dm-steps li.is-done .dm-steps__n span { display: none; }
+.dm-steps li.is-done .dm-steps__n svg { display: block; }
+
+.dm-lead { padding: 20px 22px 22px; border-radius: var(--radius); border: 1px solid var(--line); background: linear-gradient(180deg, rgba(19, 27, 37, .72), rgba(14, 20, 28, .72)); display: grid; gap: 14px; }
+.dm-lead__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.dm-lead__head b { font-family: var(--font-display); font-size: 17px; }
+.dm-lead__st { font-size: 12.5px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted); white-space: nowrap; }
+.dm-lead.is-complete .dm-lead__st { color: #7fe0a8; border-color: rgba(127, 224, 168, .35); background: rgba(63, 209, 127, .08); }
+.dm-lead__rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.dm-lead__rows > div { padding: 10px 13px; border-radius: 12px; background: rgba(255, 255, 255, .03); border: 1px solid var(--line); transition: background-color .5s, border-color .5s; }
+.dm-lead__rows dt { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--steel); }
+.dm-lead__rows dd { margin: 2px 0 0; font-size: 15px; font-weight: 500; color: #5f6c7a; }
+.dm-lead__rows > div.is-set { background: rgba(127, 151, 174, .1); border-color: var(--line-strong); animation: msgIn .5s var(--ease) both; }
+.dm-lead__rows > div.is-set dd { color: var(--text); }
+@media (max-width: 420px) { .dm-lead__rows { grid-template-columns: 1fr; } }
+
+.dm__note { display: flex; gap: 12px; align-items: flex-start; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+.dm__note svg { flex: none; width: 18px; height: 18px; margin-top: 2px; fill: none; stroke: var(--steel); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dm-msg, .dm-card, .dm-tag, .dm-qr, .dm-typing { animation: none; }
+}
+
+/* keep the section heading from leaving a single orphan word on mid-width screens */
+#demo .section__head h2 { text-wrap: balance; }
